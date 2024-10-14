@@ -8,6 +8,7 @@ import java.io.IOException;
 public class ConvertidorMoneda {
     public static TipoDeCambio obtenerTasaDeCambio(String monedaBase, String monedaDestino) {
         try {
+
             // llama al servicio API
             String jsonResponse = ServicioApi.obtenerDatosCambio(monedaBase, monedaDestino);
             // Parsea la respuesta JSON
@@ -22,7 +23,7 @@ public class ConvertidorMoneda {
                 throw new IllegalArgumentException("Moneda de destino no coincide con los datos de la API.");
             }
 
-            return new TipoDeCambio(convertidoDeMoneda, convertidoHaciaMoneda, tasa);
+            return new TipoDeCambio(convertidoDeMoneda, convertidoHaciaMoneda, tasa,0,0);
 
         } catch (IOException | InterruptedException e) {
             System.out.println("Error al realizar la conversion: " + e.getMessage());

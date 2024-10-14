@@ -1,7 +1,6 @@
 package com.aluracursos.conversordemoneda.principal;
 
 import com.aluracursos.conversordemoneda.calculos.ConvertirCalculo;
-import com.aluracursos.conversordemoneda.modelos.ConvertidorMoneda;
 import com.aluracursos.conversordemoneda.modelos.GeneradorDeArchivo;
 import com.aluracursos.conversordemoneda.modelos.TipoDeCambio;
 
@@ -13,7 +12,6 @@ public class Principal {
         Scanner entrada = new Scanner(System.in);
         boolean continuar = true;
         String monedaBase = "ARS";
-        GeneradorDeArchivo generador = new GeneradorDeArchivo();
 
         while (continuar){
             System.out.println("\n*** Conversor de Monedas ***");
@@ -26,31 +24,10 @@ public class Principal {
 
             switch (opcion) {
                 case 1:
-                    System.out.println("Introduce la nueva moneda (por ejemplo, ARS, USD): ");
-                    monedaBase = entrada.next().toUpperCase();
-                    System.out.println("Moneda actualizada a: " + monedaBase);
+                    monedaBase = cambiarMonedaBase(entrada);
                     break;
                 case 2:
-                    System.out.println("Introduce la moneda a la que quieres convertir (por ejemplo, EUR, JPY): ");
-                    String monedaDestino = entrada.next().toUpperCase();
-
-                    System.out.println("Introduce la cantidad que quieres convertir: ");
-                    double cantidad = entrada.nextDouble();
-
-                    try {
-                        double resultado = ConvertirCalculo.convertirMoneda(monedaBase, monedaDestino, cantidad);
-                        System.out.println("*** Conversión ***");
-                        System.out.println(cantidad + " " + monedaBase + " equivale a " + resultado + " " + monedaDestino);
-
-                        TipoDeCambio tipoDeCambio = ConvertidorMoneda.obtenerTasaDeCambio(monedaBase, monedaDestino);
-
-                        generador.guardarJson(tipoDeCambio);
-                        System.out.println("Datos de la tasa de cambio guardados en archivo JSON.");
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Error en la conversion: " + e.getMessage());
-                    } catch (IOException e) {
-                        System.out.println("Error al guardar los datos: " + e.getMessage());
-                    }
+                    realizarConversion(entrada, monedaBase);
                     break;
                 case 3:
                     System.out.println("Saliendo del programa...");
@@ -62,5 +39,44 @@ public class Principal {
             }
         }
         entrada.close();
+    }
+
+    private static String cambiarMonedaBase(Scanner entrada) {
+        System.out.println("Introduce la nueva moneda (por ejemplo, ARS, USD): ");
+        String nuevaMonedaBase = entrada.next().toUpperCase();
+        System.out.println("Moneda actualizada a: " + nuevaMonedaBase);
+        return nuevaMonedaBase;
+    }
+
+    private static void realizarConversion(Scanner entrada, String monedaBase) {
+        System.out.println("Introduce la moneda a la que quieres convertir (por ejemplo, EUR, JPY): ");
+        String monedaDestino = entrada.next().toUpperCase();
+
+        System.out.println("Introduce la cantidad que quieres convertir: ");
+        double cantidad = entrada.nextDouble();
+
+        try {
+            TipoDeCambio tipoDeCambio = ConvertirCalculo.convertirMoneda(monedaBase, monedaDestino, cantidad);
+
+            mostrarResultado(cantidad, monedaBase, tipoDeCambio.resultado(), monedaDestino);
+
+            guardarConversionEnJson(tipoDeCambio);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error en la conversion: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error al guardar los datos: " + e.getMessage());
+        }
+    }
+
+    private static void mostrarResultado(double cantidad, String monedaBase, double resultado, String monedaDestino) {
+        System.out.println("*** Conversión ***");
+        System.out.println(ConvertirCalculo.formatearResultado(cantidad) + " " + monedaBase + " equivale a " + ConvertirCalculo.formatearResultado(resultado) + " " + monedaDestino);
+    }
+
+    private static void guardarConversionEnJson(TipoDeCambio tipoDeCambio) throws IOException {
+        GeneradorDeArchivo generador = new GeneradorDeArchivo();
+        generador.guardarJson(tipoDeCambio);
+        System.out.println("Datos de la tasa de cambio guardados en archivo JSON.");
     }
 }

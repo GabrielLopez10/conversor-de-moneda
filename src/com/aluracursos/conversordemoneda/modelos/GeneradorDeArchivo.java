@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class GeneradorDeArchivo {
     public void guardarJson(TipoDeCambio tipoDeCambio) throws IOException {

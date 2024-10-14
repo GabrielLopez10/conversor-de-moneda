@@ -2,6 +2,8 @@ package com.aluracursos.conversordemoneda.principal;
 
 import com.aluracursos.conversordemoneda.calculos.ConvertirCalculo;
 import com.aluracursos.conversordemoneda.modelos.ConvertidorMoneda;
+import com.aluracursos.conversordemoneda.modelos.GeneradorDeArchivo;
+import com.aluracursos.conversordemoneda.modelos.TipoDeCambio;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -11,6 +13,7 @@ public class Principal {
         Scanner entrada = new Scanner(System.in);
         boolean continuar = true;
         String monedaBase = "ARS";
+        GeneradorDeArchivo generador = new GeneradorDeArchivo();
 
         while (continuar){
             System.out.println("\n*** Conversor de Monedas ***");
@@ -36,9 +39,17 @@ public class Principal {
 
                     try {
                         double resultado = ConvertirCalculo.convertirMoneda(monedaBase, monedaDestino, cantidad);
+                        System.out.println("*** Conversión ***");
                         System.out.println(cantidad + " " + monedaBase + " equivale a " + resultado + " " + monedaDestino);
+
+                        TipoDeCambio tipoDeCambio = ConvertidorMoneda.obtenerTasaDeCambio(monedaBase, monedaDestino);
+
+                        generador.guardarJson(tipoDeCambio);
+                        System.out.println("Datos de la tasa de cambio guardados en archivo JSON.");
                     } catch (IllegalArgumentException e) {
                         System.out.println("Error en la conversion: " + e.getMessage());
+                    } catch (IOException e) {
+                        System.out.println("Error al guardar los datos: " + e.getMessage());
                     }
                     break;
                 case 3:

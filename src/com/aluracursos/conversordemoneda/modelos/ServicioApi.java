@@ -22,8 +22,8 @@ public class ServicioApi {
         }
     }
 
-    public static String obtenerDatosCambio(String base) throws IOException, InterruptedException {
-        String url = "https://v6.exchangerate-api.com/v6/" + API_KEY + "/latest/" + base;
+    public static String obtenerDatosCambio(String base, String destino) throws IOException, InterruptedException {
+        String url = "https://v6.exchangerate-api.com/v6/" + API_KEY + "/pair/" + base + "/" + destino;
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()

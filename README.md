@@ -21,7 +21,7 @@ y realiza la conversión. Además, guada la información de la conversión en un
 
 ## Requisitos
 
-Para ejecutar este proyecto necesitaras tener:
+Para ejecutar este proyecto necesitarás tener:
 
 - **Java 17** o superior.
 - Una cuenta en [ExchangeRate-API](https://www.exchangerate-api.com/) para obtener una API key.

@@ -5,7 +5,7 @@
 ## Descripción
 Este es un proyecto en Java que permite convertir una cantidad de dinero de una moneda a otra
 utilizando una API de tipo de cambio. El programa obtiene la tasa de cambio actual de la API **ExchangeRate-API**
-y realiza la conversión. Además, guada la información de la conversión en un archivo JSON.
+y realiza la conversión. Además, guarda la información de la conversión en un archivo JSON.
 
 ## Características
 - Convierte monedas de una divisa base a una divisa destino.

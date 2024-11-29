@@ -37,7 +37,7 @@ git clone https://github.com/GabrielLopez10/conversor-de-moneda
 cd conversor-de-moneda
 ```
 
-### Paso 2: Clonar el repositorio
+### Paso 2: Configurar API
 
 Debes configurar tu clave de la API de ExchangeRate-API. 
 Para ello, crea un archivo config.properties en la ruta src/com/aluracursos/conversordemoneda/recursos/ con el siguiente contenido:
